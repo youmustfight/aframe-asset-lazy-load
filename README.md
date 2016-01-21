@@ -10,10 +10,9 @@ Install (or directly include the [browser files](dist)).
 npm install --save aframe-asset-lazy-load
 ```
 
-Register (Additionally requires jquery)
+Register
 
 ```js
-$ = require("jquery");
 require('aframe');
 var layout = require('aframe-layout').Component;
 AFRAME.registerComponent('layout', layout);
@@ -30,12 +29,17 @@ Use with delays or chunks.
   <a-entity
     lazy-load="chunk: 0; src:../background2.png; id: sphere2"
     geometry="primitive: sphere;
-              radius: 200;"
+              radius: 300;"
     ></a-entity>
   <a-entity
     lazy-load="chunk: 1; src:../background3.png; id: sphere3"
     geometry="primitive: sphere;
-              radius: 200;"
+              radius: 100;"
+    ></a-entity>    
+  <a-entity
+    lazy-load="chunk: 1; id: sphere3"
+    geometry="primitive: sphere;
+              radius: 400;"
     ></a-entity>    
 ```
 
