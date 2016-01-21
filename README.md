@@ -1,6 +1,6 @@
 ## aframe-asset-lazy-load-component
 
-An entity component to give users control on how and when assets are loaded!
+An a-entity component to assign asset loading order and delays
 
 ### Usage
 
