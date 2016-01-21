@@ -14,43 +14,34 @@ module.exports.component = {
    * Called once when component is attached. Generally for initial setup.
    */
   init: function () {
-    /**
-     * Make sure Assets Exists
-     */
-
+    // See if a-assets exists
     if (!assetsChecked) {
       assetsChecked = true;
       if(document.querySelector("a-assets") == null){
-        aScene = $("a-scene");
+        aScene = document.querySelector("a-scene");
         aAssets = document.createElement("a-assets");
-        aScene.prepend(aAssets);
-        aAssets = $("a-assets");
+        aScene.appendChild(aAssets);
+        aAssets = document.querySelector("a-assets");
       }
     }
 
     // Gather Up Lazy Loads
     if (!lazyLoadInitiated) {
       lazyLoadInitiated = true;
-      initLazyLoading($('[lazy-load]'));
+      var entities = document.querySelectorAll('a-entity');
+      var entitiesArray = Array.prototype.slice.call(entities);
+      var lazyLoadEntities = entitiesArray.filter(function(el){
+        if(el.hasAttribute('lazy-load')){
+          return true;
+        }
+        return false;
+      });
+      initLazyLoading(lazyLoadEntities);
     }
 
   },
-
-  /**
-   * Called when component is attached and when component data changes.
-   * Generally modifies the entity based on the data.
-   */
-  update: function (oldData) {
-
-  },
-
-  /**
-   * Called when a component is removed (e.g., via removeAttribute).
-   * Generally undoes all modifications to the entity.
-   */
-  remove: function () {
-
-  }
+  update: function (oldData) { },
+  remove: function () {}
 };
 
 // Checking existance of <a-assets>
@@ -67,25 +58,23 @@ var lazyLoadManifest = [];
 
 var initLazyLoading = function(elements){
   console.log("~~~Setting Up Lazy Loading~~~");
-  // Reset Stack for jQuery
   setTimeout(function(){
-
-    // Build Load Order
-    elements.each(function(i){
-      var el = $(elements[i]);
+  // Build Load Order
+    elements.forEach(function(el){
+      var attributes = el.getAttribute("lazy-load");
       // If has delay, and not concerned with chunk, set off immediately
-      if(el.attr("lazy-load").chunk == undefined && el.attr("lazy-load").delay != undefined){
+      if(attributes.chunk == undefined && attributes.delay != undefined){
         dispatchLoad(el);
       }
       // If it has a chunk, add to manifest
-      if(el.attr("lazy-load").chunk != undefined){
-        var pos = el.attr("lazy-load").chunk;
+      if(attributes.chunk != undefined){
+        var pos = attributes.chunk;
         // If nothing exists at that position, create new set of arrays
         if(lazyLoadManifest[pos] == undefined){
           lazyLoadManifest[pos] = [[],[]];
         }
         // Prioritize if has src
-        if(el.attr("lazy-load").src){
+        if(attributes.src){
           // 0 array contains only uploads with srcs
           lazyLoadManifest[pos][0].push(el);
         } else {
@@ -97,7 +86,7 @@ var initLazyLoading = function(elements){
 
     // Start Loading! Set in motion recurssion!!!
     console.log("~~~Lazy Loading~~~");
-    console.log(lazyLoadManifest);
+    console.log("Load Order:", lazyLoadManifest);
     runLazyLoad(0,0,lazyLoadManifest.length);
   });
 }
@@ -141,7 +130,7 @@ var runLazyLoad = function(currentChunk, currentSet, lastChunk){
         });
       } else {
         // Set our material srcs, and increment. 
-        lazyLoadManifest[thisChunk][thisSet][asset].attr("material","src:#" + lazyLoadManifest[currentChunk][currentSet][asset].attr("lazy-load").id);
+        lazyLoadManifest[thisChunk][thisSet][asset].setAttribute("material","src:#" + lazyLoadManifest[currentChunk][currentSet][asset].getAttribute("lazy-load").id);
         assetsHandled++;
         if(assetsHandled == assetsToHandle){
           runLazyLoad((thisChunk+1), 0, lastChunk);
@@ -153,22 +142,26 @@ var runLazyLoad = function(currentChunk, currentSet, lastChunk){
 }
 
 var dispatchLoad = function(el,cb){
+  var attributes = el.getAttribute("lazy-load");
   setTimeout(function(){
     // If the asset has a SRC
-    if(el.attr("lazy-load").src){
+    if(attributes.src){
       // Add to a-assets
-      aAssets.prepend('<img id=' + el.attr("lazy-load").id + ' src="' + el.attr("lazy-load").src + '">');
+      var newAsset = document.createElement("img");
+      newAsset.id = attributes.id;
+      newAsset.src = attributes.src;
+      aAssets.appendChild(newAsset);
       // Wait till loaded...
-      $('#'+ el.attr("lazy-load").id).on('load', function(){
+      newAsset.addEventListener('load', function(){
         // To update entity's material property
-        $(el).attr("material","src:#" + el.attr("lazy-load").id);
+        el.setAttribute("material","src:#" + attributes.id);
         // Run callback
         if (cb) return cb();
       });
     } else {
       // Otherwise, just upadte tag
-      $(el).attr("material","src:#" + el.attr("lazy-load").id);
+      el.setAttribute("material","src:#" + attributes.id);
       if (cb) return cb();
     }
-  }, el.attr("lazy-load").delay || 0);
+  }, attributes.delay || 0);
 }
