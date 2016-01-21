@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <script src="../build.js"></script>
+  </head>
+  <body>
+    <a-scene>
+      <a-entity class="sphere-1"
+        lazy-load="chunk: 0; src:../background.png; id: til-death"
+        geometry="primitive: sphere;
+                  radius: 200;
+                  segments-width: 64;
+                  segments-height: 64;"
+        scale="-1 1 1"
+        rotation="0 -105 0"
+        position="-400 0 -700"
+        ></a-entity>
+      <a-entity class="sphere-2"
+        lazy-load="chunk: 1; src:../background2.jpg; id: purple-bg"
+        geometry="primitive: sphere;
+                  radius: 200;
+                  segments-width: 64;
+                  segments-height: 64;"
+        scale="-1 1 1"
+        rotation="0 -105 0"
+        position="100 0 -700"
+        ></a-entity>
+      <a-entity class="sphere-3"
+        lazy-load="chunk: 1; id: purple-bg"
+        geometry="primitive: sphere;
+                  radius: 200;
+                  segments-width: 64;
+                  segments-height: 64;"
+        scale="-1 1 1"
+        rotation="0 -105 0"
+        position="600 0 -700"
+        ></a-entity>
+    </a-scene>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://aframe.io/releases/latest/aframe.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.js"></script>
+  </head>
+  <body>
+    <a-assets></a-assets>
+    <a-scene>
+      <a-assets>
+      </a-assets>
+      <!-- <a-image position="-150 0 -1500" rotation="0 0 0" height="1000" width="1000" src="../background.png"></a-image> -->
+      <a-entity class="sphere-1"
+        geometry="primitive: sphere;
+                  radius: 200;
+                  segments-width: 64;
+                  segments-height: 64;"
+        material=""
+        scale="-1 1 1"
+        rotation="0 -105 0"
+        position="-400 0 -700"
+        ></a-entity>
+      <a-entity class="sphere-2"
+        geometry="primitive: sphere;
+                  radius: 200;
+                  segments-width: 64;
+                  segments-height: 64;"
+        material=""
+        scale="-1 1 1"
+        rotation="0 -105 0"
+        position="300 0 -700"
+        ></a-entity>
+    </a-scene>
+    <script src="example.js"></script>
+  </body>
+</html>

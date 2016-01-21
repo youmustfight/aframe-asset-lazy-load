@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>A-Frame Asset-Lazy-Load Component</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css"/>
+    <style>
+      html {
+        background: #EF2D5E;
+        color: #FFFFFF;
+        font-family: monospace;
+        font-size: 20px;
+        padding: 10px 20px;
+      }
+      h1 {
+        font-weight: 300;
+      }
+      a {
+        color: #FFFFFF;
+        display: block;
+        padding: 15px 0;
+      }
+      p,ul,li {
+        color: #FFFFFF;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>A-Frame Asset-Lazy-Load Component</h1>
+    <a href="no-component/index.html">No Component - Using Jquery Timeouts and Onloads</a>
+    <p>Using jQuery to individually add images to the assets element, and upon load, update the ID on the relevant entity. </p>
+    <p>Cons: 1) Hides assets in javascript code 2) Requires loading individually 3) Can't reliably assign IDs to assets sharing that image</p>
+    <a href="timeouts/index.html">Using AssetLazyLoad - Timeouts</a>
+    <p>Using the Asset-Lazy-Load Component to handle delays. </p>
+    <p>Pros: 1) Keeps asset descriptions in a-frame code 2) Removes the need to repeatedly write code for loading to assets and assigning IDs upon load. </p>
+    <p>Cons: Misjudging delays when assigning IDs can cause streams of warnings and temporary mismatching of assets</p>
+    <a href="priorities/index.html">Using AssetLazyLoad - Chunking</a>
+    <p>Ussing the Asset-Lazy-Load Component, via chunking. This is a hybrid of blocking/non-blocking loading of assets. For example, you may have a game with a cinematic opening. Rather than loading all image assets right at the start, you can prioritize assets for your cinematic opening in 'chunk: 0', and the rest of your game assets in 'chunk: 1'. This method requires that all assets in chunk 0 finish downloading before moving on.</p>
+    <p>Pros: 1) Keeps asset descriptions in a-frame code, 2) No need to juggle loading assets in javascript and assigning IDs appropriately 3) No need to guess with timeouts or delays</p>
+    <br>
+    <h5>To Dos/Ideas:</h5>
+    <ul>
+      <li>Could each chunk fire an event or something when they're done loading? That way developers could prevent a user from advancing to a new scene, until all assets are ready?</li>
+      <li>Would like to have chunks only required for when you define a src. This way a user can define IDs with lazy load, and the assignment of that ID will automatically be put in the appropriate chunk</li>
+      <li>Would like to expand from images to videos and objects</li>
+      <li>Would like to have it work for wrappers like 'a-image'</li>
+      <li>Perhaps re-write chunking idea to be contained in the a-assets, since it might be easier to keep track of things. Then play with entity materials to watch for an asset loading and update when it's done</li>
+    </ul>
+
+    <div class="github-fork-ribbon-wrapper right">
+      <div class="github-fork-ribbon" style="background: #3482AA">
+        <a href="https://github.com/youmustfight/aframe-asset-lazy-load">Fork me on GitHub</a>
+      </div>
+    </div>
+  </body>
+</html>
