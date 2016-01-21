@@ -23,17 +23,17 @@ Use with delays or chunks.
 
 ```html
   <a-entity
-    lazy-load="delay: 1000; src:../background.png; id: til-death"
+    lazy-load="delay: 1000; src:../background.png; id: sphere1"
     geometry="primitive: sphere;
               radius: 200;"
     ></a-entity>
   <a-entity
-    lazy-load="chunk: 0; src:../background2.png; id: til-death"
+    lazy-load="chunk: 0; src:../background2.png; id: sphere2"
     geometry="primitive: sphere;
               radius: 200;"
     ></a-entity>
   <a-entity
-    lazy-load="chunk: 1; src:../background3.png; id: til-death"
+    lazy-load="chunk: 1; src:../background3.png; id: sphere3"
     geometry="primitive: sphere;
               radius: 200;"
     ></a-entity>    
